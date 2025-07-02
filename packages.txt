@@ -5,4 +5,4 @@ stow
 fzf
 kitty
 neovim
-
+lazygit

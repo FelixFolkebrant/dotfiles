@@ -23,3 +23,34 @@ source $HOME/.zsh/plugins/powerlevel10k/powerlevel10k.zsh-theme
 
 # Your own aliases, functions, and config below
 # alias ll="ls -alF"
+
+# Keybinds
+bindkey '^ ' autosuggest-accept
+bindkey '^j' history-search-forward
+bindkey '^k' history-search-backward
+bindkey '^f' fzf-file-widget
+bindkey '\e[1;6F' fzf-cd-widget
+
+# Aliases
+
+alias lg='lazygit'
+alias lsa='ls -a'
+
+# History
+HISTSIZE=5000
+HISTFILE=~/.zsh_history
+SAVEHIST=$HISTSIZE
+HISTDUP=erase
+setopt appendhistory
+setopt sharehistory
+setopt hist_ignore_space
+setopt hist_ignore_all_dups
+setopt hist_save_no_dups
+setopt hist_ignore_dups
+
+# Completion styling
+zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}  
+
+# Aliases
+alias ls='ls --color'
+
