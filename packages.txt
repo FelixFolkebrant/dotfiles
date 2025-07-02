@@ -1,0 +1,8 @@
+zsh
+git
+unzip
+stow
+fzf
+kitty
+neovim
+
