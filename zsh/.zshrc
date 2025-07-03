@@ -24,6 +24,15 @@ source $HOME/.zsh/plugins/powerlevel10k/powerlevel10k.zsh-theme
 # Your own aliases, functions, and config below
 # alias ll="ls -alF"
 
+# Keybind functions
+
+function go_home() {
+  cd ~
+  zle accept-line
+}
+
+zle -N go_home
+
 # Keybinds
 bindkey '^ ' autosuggest-accept
 bindkey '^j' history-search-forward
@@ -31,10 +40,17 @@ bindkey '^k' history-search-backward
 bindkey '^f' fzf-file-widget
 bindkey '\e[1;6F' fzf-cd-widget
 
+bindkey '^h' go_home
+
+
 # Aliases
 
 alias lg='lazygit'
 alias lsa='ls -a'
+alias pms='sudo pacman -S'
+alias pmss='sudo pacman -S --noconfirm'
+alias pmr='sudo pacman -Rns'
+alias pmu='sudo pacman -Syu'
 
 # History
 HISTSIZE=5000
@@ -53,4 +69,7 @@ zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
 
 # Aliases
 alias ls='ls --color'
+
+# Binaries path
+export PATH="$HOME/bin:$HOME/.local/bin:$PATH"
 
