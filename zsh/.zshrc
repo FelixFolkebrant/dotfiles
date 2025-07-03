@@ -21,8 +21,15 @@ source $HOME/.zsh/plugins/powerlevel10k/powerlevel10k.zsh-theme
 # Fuzzy finder integration (if you have fzf)
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
-# Your own aliases, functions, and config below
-# alias ll="ls -alF"
+# Dont really like this aproach. Problem: Same cutof at half monitor on both vert and hor.
+# Best: Cutoff horizontal monitor at w/4 and vert at w/2
+if [ "$(tput cols)" -ge 50 ]; then
+  export FZF_CTRL_T_OPTS="--preview 'bat -n --color=always --line-range :500 {}'"
+  export FZF_ALT_C_OPTS="--preview 'eza --tree --color=always {} | head -200'"
+else
+  export FZF_CTRL_T_OPTS=""
+  export FZF_ALT_C_OPTS=""
+fi
 
 # Keybind functions
 
@@ -34,23 +41,24 @@ function go_home() {
 zle -N go_home
 
 # Keybinds
-bindkey '^ ' autosuggest-accept
+bindkey '^[[Z' autosuggest-accept
 bindkey '^j' history-search-forward
 bindkey '^k' history-search-backward
 bindkey '^f' fzf-file-widget
 bindkey '\e[1;6F' fzf-cd-widget
-
-bindkey '^h' go_home
+bindkey '^g' go_home
 
 
 # Aliases
 
 alias lg='lazygit'
-alias lsa='ls -a'
-alias pms='sudo pacman -S'
-alias pmss='sudo pacman -S --noconfirm'
-alias pmr='sudo pacman -Rns'
-alias pmu='sudo pacman -Syu'
+
+alias ls='eza --color=always --icons'
+alias lst='eza --tree --color=always --level=2 --icons=always'
+alias lsa='eza -a --classify --color=always'
+alias lsl='eza --icons --color=always --oneline'
+
+alias ..='cd ..'
 
 # History
 HISTSIZE=5000
@@ -66,9 +74,6 @@ setopt hist_ignore_dups
 
 # Completion styling
 zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}  
-
-# Aliases
-alias ls='ls --color'
 
 # Binaries path
 export PATH="$HOME/bin:$HOME/.local/bin:$PATH"
