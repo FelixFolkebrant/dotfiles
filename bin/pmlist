@@ -1,0 +1,33 @@
+#!/bin/bash
+
+# Get list of installed packages with details
+pacman -Qi | awk -F: '
+  /^Name/ { name=$2; gsub(/^ +| +$/, "", name) }
+  /^Version/ { version=$2; gsub(/^ +| +$/, "", version) }
+  /^Installed Size/ {
+    rawsize=$2; gsub(/^ +| +$/, "", rawsize)
+    if (rawsize ~ /KiB/) size = rawsize * 0.001024
+    else if (rawsize ~ /MiB/) size = rawsize
+    else if (rawsize ~ /GiB/) size = rawsize * 1024
+    else size = 0
+  }
+  /^Install Date/ {
+    date=$2; gsub(/^ +| +$/, "", date)
+    printf "%-30s|%10.2f|%s|%s\n", name, size, version, date
+  }
+' | {
+
+  case "$1" in
+    -s|--size)
+      sort -t"|" -k2 -n | awk -F"|" '{ printf "%-30s %10.2f MB   %s\n", $1, $2, $3 }'
+      ;;
+    -d|--date)
+      sort -t"|" -k4 | awk -F"|" '{ printf "%-30s %10.2f MB   %s\n", $1, $2, $4 }'
+      ;;
+    *)
+      sort -t"|" -k1 | awk -F"|" '{ printf "%-30s %10.2f MB   %s\n", $1, $2, $3 }'
+      ;;
+  esac
+
+}
+
