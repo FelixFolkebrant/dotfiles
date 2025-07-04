@@ -35,6 +35,9 @@ bash scripts/install-fonts.sh
 echo "Refreshing font cache..."
 fc-cache -fv
 
+echo "Enabling bluetooth service"
+sudo systemctl enable bluetooth.service --now
+
 echo "Changing default shell to ZSH"
 chsh -s /bin/zsh
 

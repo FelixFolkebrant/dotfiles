@@ -10,3 +10,8 @@ lazygit
 bat
 eza
 waybar
+bluez
+bluez-utils
+blueman
+wl-clipboard
+pavucontrol
