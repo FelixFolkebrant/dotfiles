@@ -2,9 +2,9 @@
   "position": "top",
   "height": 32,
   "margin-bottom": -5,
-  "modules-left": ["clock"],
-  "modules-center": ["hyprland/workspaces"],
-  "modules-right": ["pulseaudio", "battery#icon", "battery#text"],
+  "modules-left": ["hyprland/workspaces"],
+  "modules-center": ["clock"],
+  "modules-right": ["pulseaudio", "battery#icon"],
   "pulseaudio": {
     "format": "{icon}",
     "format-muted": " muted",
@@ -31,7 +31,7 @@
 // Seperate icon and text configurations for icon and text
   "battery#icon": {
     "format": "{icon}",
-    "format-charging": " {icon}",
+    "format-charging": "{icon} ",
     "format-icons": ["", "", "", "", ""],
     "format-icons-charging": "",
     "states": {
