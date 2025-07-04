@@ -15,7 +15,7 @@ for plugin in "${!plugins[@]}"; do
   plugin_dir="$ZSH_PLUGIN_DIR/$plugin"
   if [[ ! -d "$plugin_dir" ]]; then
     echo "[*] Cloning $plugin..."
-    git clone --depth=1 "${plugins[$plugin]}" "$plugin_dir"
+    git clone "${plugins[$plugin]}" "$plugin_dir"
   else
     echo "[✓] $plugin already installed."
   fi

@@ -1,5 +1,6 @@
 zsh
 git
+less
 unzip
 stow
 fzf
@@ -7,3 +8,5 @@ kitty
 neovim
 lazygit
 bat
+eza
+waybar

@@ -18,8 +18,9 @@ source $HOME/.zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 source $HOME/.zsh/plugins/powerlevel10k/powerlevel10k.zsh-theme
 [[ -f ~/.p10k.zsh ]] && source ~/.p10k.zsh
 
-# Fuzzy finder integration (if you have fzf)
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+# FZF fuzzy finder
+[ -f /usr/share/fzf/key-bindings.zsh ] && source /usr/share/fzf/key-bindings.zsh
+[ -f /usr/share/fzf/completion.zsh ] && source /usr/share/fzf/completion.zsh
 
 # Dont really like this aproach. Problem: Same cutof at half monitor on both vert and hor.
 # Best: Cutoff horizontal monitor at w/4 and vert at w/2
@@ -55,7 +56,7 @@ alias lg='lazygit'
 
 alias ls='eza --color=always --icons'
 alias lst='eza --tree --color=always --level=2 --icons=always'
-alias lsa='eza -a --classify --color=always'
+alias lsa='eza -a --icons --color=always'
 alias lsl='eza --icons --color=always --oneline'
 
 alias ..='cd ..'

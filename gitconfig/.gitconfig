@@ -1,0 +1,7 @@
+[pull]
+	rebase = true
+[init]
+	defaultBranch = main
+[user]
+	email = felix.folkebrant@gmail.com
+	name = Felix Folkebrant
