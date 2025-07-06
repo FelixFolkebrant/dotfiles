@@ -1,0 +1,20 @@
+{
+  "name": "ayu-mirage-mod",
+  "displayName": "Ayu Mirage Mod",
+  "description": "Ayu mirage but with default syntax highlight",
+  "version": "0.0.1",
+  "publisher": "me",
+  "engines": {
+    "vscode": "^1.0.0"
+  },
+  "contributes": {
+    "themes": [
+      {
+        "label": "Ayu Mirage Mod",
+        "uiTheme": "vs-dark",
+        "path": "./themes/ayu-mirage-mod.json"
+      }
+    ]
+  }
+}
+

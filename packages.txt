@@ -16,3 +16,5 @@ blueman
 wl-clipboard
 pavucontrol
 fastfetch
+keyd
+mako

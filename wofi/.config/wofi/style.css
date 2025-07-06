@@ -1,16 +1,19 @@
 * {
-  font-family: 'JetBrainsMono Nerd Font', monospace;
+  font-family: "JetBrainsMono Nerd Font", monospace;
   font-size: 18px;
   background: transparent;
 }
 
 *:focus {
-    outline: none;
-    box-shadow: none;
+  outline: none;
+  box-shadow: none;
 }
 
-window, listview, entry, label {
-    all: unset;
+window,
+listview,
+entry,
+label {
+  all: unset;
 }
 
 /* Window */
@@ -18,20 +21,20 @@ window {
   margin: 0px;
   padding: 10px;
   border-radius: 18px;
-  background-color: rgba(0,0,0,0.25);
+  background-color: rgba(0, 0, 0, 0.25);
   animation: slideIn 0.1s ease-in-out both;
 
-  border: solid 1px rgba(100,100,100,0.10);
+  border: solid 1px rgba(100, 100, 100, 0.1);
 }
 
 /* Slide In */
 @keyframes slideIn {
   0% {
-     opacity: 0;
+    opacity: 0;
   }
 
   100% {
-     opacity: 1;
+    opacity: 1;
   }
 }
 
@@ -46,11 +49,11 @@ window {
 /* Fade In */
 @keyframes fadeIn {
   0% {
-     opacity: 0;
+    opacity: 0;
   }
 
   100% {
-     opacity: 1;
+    opacity: 1;
   }
 }
 
@@ -74,21 +77,20 @@ window {
   padding: 10px;
   border: none;
   border-radius: 0.1em;
-  background-color:transparent;
+  background-color: transparent;
   animation: fadeIn 0.2s ease-in-out both;
-color:white;
-font-size: 20px;
+  color: white;
+  font-size: 20px;
 }
-#input::focus{
-	outline:none;
-	border: none;
+#input::focus {
+  outline: none;
+  border: none;
 }
 #input image {
-    border: none;
-    color: white;
-    padding-right: 5px;
+  border: none;
+  color: white;
+  padding-right: 5px;
 }
-
 
 /* Text */
 #text {
@@ -98,9 +100,9 @@ font-size: 20px;
 }
 
 #entry {
-	padding: 15px;
-	color: white;
-	border-radius: 12px;
+  padding: 15px;
+  color: white;
+  border-radius: 12px;
 }
 
 #entry arrow {
@@ -109,8 +111,8 @@ font-size: 20px;
 
 /* Selected Entry */
 #entry:selected {
-	/* background: rgba(255,255,255,0.4); */
-	border: solid 1px white;
+  /* background: rgba(255,255,255,0.4); */
+  border: solid 1px white;
 }
 
 #entry:selected #text {
@@ -118,4 +120,3 @@ font-size: 20px;
 
 #entry:drop(active) {
 }
-

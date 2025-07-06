@@ -51,7 +51,7 @@ bindkey '^g' go_home
 
 
 # Aliases
-
+alias fetch="fastfetch"
 alias lg='lazygit'
 
 alias ls='eza --color=always --icons'
@@ -78,4 +78,7 @@ zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
 
 # Binaries path
 export PATH="$HOME/bin:$HOME/.local/bin:$PATH"
+export PATH="$HOME/.cargo/bin:$PATH"
 
+
+export PATH=$PATH:/home/felux/.spicetify

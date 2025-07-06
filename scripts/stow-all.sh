@@ -4,8 +4,10 @@ set -e
 
 for dir in */; do
   [[ "$dir" == "scripts/" ]] && continue
-  stow -R "${dir%/}"  # -R = restow: unstow first, then stow again
+  if [[ -d "$dir/etc" ]]; then
+    sudo stow -t / "$dir"
+  else
+    stow -R "${dir%/}"
+  fi
 done
-
-echo "✅ Dotfiles stowed successfully. (ignored /scripts)"
 

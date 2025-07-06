@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+# resize-percent <pct>
+# e.g. resize-percent 25  → 25%
+
+pct=$1
+
+# query monitors; find the focused one
+mon_json=$(hyprctl monitors --json)
+# extract its width/height
+width=$(jq '.[] | select(.focused==true).resolution.x'  <<<"$mon_json")
+height=$(jq '.[] | select(.focused==true).resolution.y'  <<<"$mon_json")
+
+# calculate new size
+new_w=$(( width * pct / 100 ))
+new_h=$(( height * pct / 100 ))
+
+# apply exact resize to the active window
+hyprctl dispatch resizewindowpixel exact "$new_w" "$new_h"
+
