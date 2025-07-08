@@ -85,7 +85,7 @@
   "clock": {
     "format": "{:%H:%M}",
     "tooltip-format": "{:L%A | %d %B %Y} ",
-    "timezone": "UTC"
+    "timezone": "Europe/Stockholm"
   }
 }
 
