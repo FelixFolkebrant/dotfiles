@@ -1,55 +1,92 @@
 {
+  /* === BAR DEFINITION === */
   "position": "top",
   "height": 40,
   "margin-bottom": 3,
+  "spacing": 5,
+
   "modules-left": ["hyprland/workspaces"],
   "modules-center": ["clock"],
-  "modules-right": ["pulseaudio", "battery#icon"],
+  "modules-right": [
+    "bluetooth#icon", // bluetooth icon – only when a device is paired+connected
+    "pulseaudio",
+    "network#icon", // network icon – only when connected
+    "battery#icon"
+  ],
+
+  /* === MODULE CONFIGS === */
+
+  /* --- Audio -------------------------------------------------- */
   "pulseaudio": {
     "format": "{icon}",
     "format-muted": " muted",
     "format-icons": {
       "default": "",
       "headphones": "",
-      "handsfree": "",
-      "hdmi": ""
+      "headset": ""
     },
     "scroll-step": 5,
     "on-click": "pavucontrol"
   },
+
+  /* --- Workspaces --------------------------------------------- */
   "hyprland/workspaces": {
     "format": "{icon}",
-    "format-icons": {
-      "active": "●",
-      "default": "○"
-    },
-    "persistent-workspaces": {
-      "*": [1, 2, 3, 4, 5]
-    }
+    "format-icons": { "active": "●", "default": "○" },
+    "persistent-workspaces": { "*": [1, 2, 3, 4, 5] }
   },
 
-// Seperate icon and text configurations for icon and text
+  /* --- Battery ------------------------------------------------ */
   "battery#icon": {
     "format": "{icon}",
     "format-charging": "{icon} ",
     "format-icons": ["", "", "", "", ""],
     "format-icons-charging": "",
-    "states": {
-      "warning": 30,
-      "critical": 15
-    },
-    "interval": 1 // Update interval in seconds
+    "states": { "warning": 30, "critical": 15 },
+    "interval": 1,
+    "tooltip-format-discharging": "{capacity}% · {time} left",
+    "tooltip-format-charging": "{capacity}% · full in {time}",
+    "tooltip-format-plugged": "{capacity}% · on AC power",
+    "tooltip-format-full": "{capacity}% · battery full"
   },
-  "battery#text": {
-    "format": "{capacity}%",
-    "states": {
-      "warning": 30,
-      "critical": 15
+
+  /* --- Network ------------------------------------------------ */
+  "network#icon": {
+    "interface": "w*", // match wlan0, wlp2s0 …; add “e*” for ethernet if you want both
+    "format-wifi": "{icon}",
+    "format-ethernet": "{icon}",
+    "format-disconnected": "", // print nothing → the whole module vanishes
+    "format-disabled": "",
+    "tooltip-format": "{essid}",
+    "interval": 2,
+    "format-icons": {
+      "wifi": "",
+      "ethernet": "󰈀"
     },
-    "interval": 10
+    "on-click": "kitty -e nmtui"
+  },
+
+  /* --- Bluetooth ---------------------------------------------- */
+  "bluetooth#icon": {
+    "format": "{icon}", // optional catch-all
+    "format-connected": "{icon}",
+    "format-connected-battery": "{icon}",
+    "format-on": "",
+    "format-off": "",
+    "format-disabled": "",
+    "tooltip-format": "{controller_alias}\n{device_alias} {device_battery_percentage}%",
+    "tooltip-format-connected": "{controller_alias}\n{device_alias} {device_battery_percentage}%",
+    "interval": 2,
+    "format-icons": {
+      "default": ""
+    }
+  },
+
+  "clock": {
+    "format": "{:%H:%M}",
+    "tooltip-format": "{:L%A | %d %B %Y} ",
+    "timezone": "UTC"
   }
-},
-"clock": {
-  "format": "%a %b %d, %H:%M",
-  "timezones": ["UTC"]
 }
+
+/* --- Clock lives at top level, NOT inside the bar block ------- */
