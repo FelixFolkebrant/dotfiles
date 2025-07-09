@@ -18,3 +18,8 @@ pavucontrol
 fastfetch
 keyd
 mako
+grim
+slurp
+wl-clipboard
+tesseract
+tesseract-data-swe
