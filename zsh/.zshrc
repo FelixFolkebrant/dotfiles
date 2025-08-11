@@ -60,6 +60,8 @@ alias lsa='eza -a --icons --color=always'
 alias lsl='eza --icons --color=always --oneline'
 
 alias ..='cd ..'
+alias vpn='(echo "Starting OpenVPN connection" && cd ~/openvpn && sudo openvpn --config laptop.ovpn --daemon && echo "Successfully connected to OpenVPN")'
+alias dvpn='sudo killall openvpn && echo "Disconnected from OpenVPN"' 
 
 # History
 HISTSIZE=5000
