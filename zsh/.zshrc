@@ -59,9 +59,29 @@ alias lst='eza --tree --color=always --level=2 --icons=always'
 alias lsa='eza -a --icons --color=always'
 alias lsl='eza --icons --color=always --oneline'
 
-alias ..='cd ..'
-alias vpn='(echo "Starting OpenVPN connection" && cd ~/openvpn && sudo openvpn --config laptop.ovpn --daemon && echo "Successfully connected to OpenVPN")'
-alias dvpn='sudo killall openvpn && echo "Disconnected from OpenVPN"' 
+alias vpn='
+if pgrep openvpn > /dev/null; then
+    echo "OpenVPN is already running."
+else
+    echo "Starting OpenVPN connection..."
+    cd ~/openvpn && sudo openvpn --config laptop.ovpn --daemon
+    if pgrep openvpn > /dev/null; then
+        echo "Successfully connected to OpenVPN."
+    else
+        echo "Failed to start OpenVPN."
+    fi
+fi
+'
+
+alias dvpn='
+if pgrep openvpn > /dev/null; then
+    sudo killall openvpn
+    echo "Disconnected from OpenVPN."
+else
+    echo "OpenVPN is not running."
+fi
+'
+
 
 # History
 HISTSIZE=5000

@@ -1,8 +1,9 @@
 {
   /* === BAR DEFINITION === */
   "position": "top",
-  "height": 40,
-  "margin-bottom": 3,
+  "height": 30,
+  "margin-top": 4,
+  "margin-bottom": 0,
   "spacing": 5,
 
   "modules-left": ["hyprland/workspaces"],
@@ -10,11 +11,11 @@
   "modules-right": [
     "bluetooth#icon", // bluetooth icon – only when a device is paired+connected
     "pulseaudio",
-    "network#icon", // network icon – only when connected
+    "custom/network-vpn", // custom network module with VPN detection
     "battery#icon"
   ],
 
-  /* === MODULE CONFIGS === */
+  // /* === MODULE CONFIGS === */
 
   /* --- Audio -------------------------------------------------- */
   "pulseaudio": {
@@ -39,7 +40,6 @@
   /* --- Battery ------------------------------------------------ */
   "battery#icon": {
     "format": "{icon}",
-    "format-charging": "{icon} ",
     "format-icons": ["", "", "", "", ""],
     "format-icons-charging": "",
     "states": { "warning": 30, "critical": 15 },
@@ -48,6 +48,15 @@
     "tooltip-format-charging": "{capacity}% · full in {time}",
     "tooltip-format-plugged": "{capacity}% · on AC power",
     "tooltip-format-full": "{capacity}% · battery full"
+  },
+
+  /* --- Network with VPN Detection ---------------------------- */
+  "custom/network-vpn": {
+    "format": "{}",
+    "return-type": "json",
+    "exec": "~/.config/waybar/scripts/network-vpn.sh",
+    "interval": 3,
+    "on-click": "kitty -e nmtui"
   },
 
   /* --- Network ------------------------------------------------ */
