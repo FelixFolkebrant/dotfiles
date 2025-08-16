@@ -13,7 +13,7 @@ fi
 # Source plugins
 source $HOME/.zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
 source $HOME/.zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-
+source $HOME/.zsh/plugins/calc/calc.plugin.zsh
 # Powerlevel10k prompt
 source $HOME/.zsh/plugins/powerlevel10k/powerlevel10k.zsh-theme
 [[ -f ~/.p10k.zsh ]] && source ~/.p10k.zsh
@@ -55,7 +55,10 @@ alias fetch="fastfetch"
 alias lg='lazygit'
 
 alias ls='eza --color=always --icons'
-alias lst='eza --tree --color=always --level=2 --icons=always'
+lst() {
+  level="${1:-1}"   # default to 1 if no argument given
+  exa --tree --color=always --level="$level" --icons
+}
 alias lsa='eza -a --icons --color=always'
 alias lsl='eza --icons --color=always --oneline'
 
@@ -81,7 +84,6 @@ else
     echo "OpenVPN is not running."
 fi
 '
-
 
 # History
 HISTSIZE=5000

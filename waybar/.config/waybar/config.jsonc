@@ -42,12 +42,17 @@
     "format": "{icon}",
     "format-icons": ["", "", "", "", ""],
     "format-icons-charging": "",
-    "states": { "warning": 30, "critical": 15 },
+    "states": {
+      "warning": 30,
+      "critical": 20,
+      "low": 10
+    },
     "interval": 1,
     "tooltip-format-discharging": "{capacity}% · {time} left",
     "tooltip-format-charging": "{capacity}% · full in {time}",
     "tooltip-format-plugged": "{capacity}% · on AC power",
-    "tooltip-format-full": "{capacity}% · battery full"
+    "tooltip-format-full": "{capacity}% · battery full",
+    "exec": "~/.config/waybar/scripts/battery-notify.sh"
   },
 
   /* --- Network with VPN Detection ---------------------------- */

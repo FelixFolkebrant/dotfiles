@@ -47,6 +47,22 @@ tooltip {
   color: #008c00; /* Green color when charging */
 }
 
+/* Battery critical and low states - red color (only when not charging) */
+#battery.icon.critical:not(.charging) {
+  color: #ff0000;
+}
+
+#battery.icon.low:not(.charging) {
+  color: #ff0000;
+  animation: blink 1s linear infinite;
+}
+
+@keyframes blink {
+  0% { opacity: 1; }
+  50% { opacity: 0.5; }
+  100% { opacity: 1; }
+}
+
 #bluetooth.icon {
   font-size: 16px;
   margin-right: 3px; /* Space between icon and text */

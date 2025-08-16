@@ -8,7 +8,7 @@ declare -A plugins=(
   [zsh-autosuggestions]="https://github.com/zsh-users/zsh-autosuggestions.git"
   [zsh-syntax-highlighting]="https://github.com/zsh-users/zsh-syntax-highlighting.git"
   [powerlevel10k]="https://github.com/romkatv/powerlevel10k.git"
-  # Add more plugins here
+  [calc]="https://github.com/arzzen/calc.plugin.zsh.git"
 )
 
 for plugin in "${!plugins[@]}"; do
