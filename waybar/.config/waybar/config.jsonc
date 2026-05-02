@@ -10,9 +10,10 @@
   "modules-center": ["clock"],
   "modules-right": [
     "bluetooth#icon", // bluetooth icon – only when a device is paired+connected
+    "custom/conky",
     "pulseaudio",
     "custom/network-vpn", // custom network module with VPN detection
-    "battery#icon"
+    "battery#icon",
   ],
 
   // /* === MODULE CONFIGS === */
@@ -24,17 +25,17 @@
     "format-icons": {
       "default": "",
       "headphones": "",
-      "headset": ""
+      "headset": "",
     },
     "scroll-step": 5,
-    "on-click": "pavucontrol"
+    "on-click": "pavucontrol",
   },
 
   /* --- Workspaces --------------------------------------------- */
   "hyprland/workspaces": {
     "format": "{icon}",
     "format-icons": { "active": "●", "default": "○" },
-    "persistent-workspaces": { "*": [1, 2, 3, 4, 5] }
+    "persistent-workspaces": { "*": [1, 2, 3, 4, 5] },
   },
 
   /* --- Battery ------------------------------------------------ */
@@ -45,14 +46,14 @@
     "states": {
       "warning": 30,
       "critical": 20,
-      "low": 10
+      "low": 10,
     },
     "interval": 1,
-    "tooltip-format-discharging": "{capacity}% · {time} left",
+    "tooltip-format-discharging": "{capacity}% · {time}",
     "tooltip-format-charging": "{capacity}% · full in {time}",
     "tooltip-format-plugged": "{capacity}% · on AC power",
     "tooltip-format-full": "{capacity}% · battery full",
-    "exec": "~/.config/waybar/scripts/battery-notify.sh"
+    "exec": "~/.config/waybar/scripts/battery-notify.sh",
   },
 
   /* --- Network with VPN Detection ---------------------------- */
@@ -61,7 +62,7 @@
     "return-type": "json",
     "exec": "~/.config/waybar/scripts/network-vpn.sh",
     "interval": 3,
-    "on-click": "kitty -e nmtui"
+    "on-click": "kitty -e nmtui",
   },
 
   /* --- Network ------------------------------------------------ */
@@ -75,9 +76,9 @@
     "interval": 2,
     "format-icons": {
       "wifi": "",
-      "ethernet": "󰈀"
+      "ethernet": "󰈀",
     },
-    "on-click": "kitty -e nmtui"
+    "on-click": "kitty -e nmtui",
   },
 
   /* --- Bluetooth ---------------------------------------------- */
@@ -92,15 +93,23 @@
     "tooltip-format-connected": "{controller_alias}\n{device_alias} {device_battery_percentage}%",
     "interval": 2,
     "format-icons": {
-      "default": ""
-    }
+      "default": "",
+    },
+  },
+
+  /* --- Conky Tooltip ------------------------------------------- */
+  "custom/conky": {
+    "return-type": "json",
+    "exec": "~/.config/waybar/scripts/conky-tooltip.sh",
+    "interval": 1,
+    "tooltip": true,
   },
 
   "clock": {
     "format": "{:%H:%M}",
     "tooltip-format": "{:L%A | %d %B %Y} ",
-    "timezone": "Europe/Stockholm"
-  }
+    "timezone": "Europe/Stockholm",
+  },
 }
 
 /* --- Clock lives at top level, NOT inside the bar block ------- */

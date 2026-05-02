@@ -58,9 +58,15 @@ tooltip {
 }
 
 @keyframes blink {
-  0% { opacity: 1; }
-  50% { opacity: 0.5; }
-  100% { opacity: 1; }
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 1;
+  }
 }
 
 #bluetooth.icon {
@@ -72,4 +78,26 @@ tooltip {
   font-size: 14px;
   margin-right: 6px; /* Space between icon and text */
   letter-spacing: 0px;
+}
+
+#custom-conky {
+  font-size: 18px;
+  margin-right: 6px;
+  letter-spacing: 0px;
+}
+
+#custom-conky.performance {
+  color: #4aa3ff;
+}
+
+#custom-conky.powersave {
+  color: #ffd54a;
+}
+
+#custom-conky.balanced {
+  color: #ffffff;
+}
+
+#custom-conky.critical {
+  color: #ff4040;
 }
