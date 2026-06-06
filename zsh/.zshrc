@@ -108,3 +108,5 @@ export PATH="$HOME/.cargo/bin:$PATH"
 export PATH=$PATH:/home/felux/.spicetify
 export PATH=$PATH:/home/felux/Documents/oscal-cli/target/cli-core-1.0.3-oscal-cli/bin
 function gi() { curl -sLw "\n" https://www.toptal.com/developers/gitignore/api/$@ ;}
+
+. "$HOME/.local/share/../bin/env"
