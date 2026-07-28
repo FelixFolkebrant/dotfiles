@@ -50,7 +50,12 @@ bindkey '\e[1;6F' fzf-cd-widget
 bindkey '^g' go_home
 
 
+
 # Aliases
+alias gl='git log --oneline --graph'
+alias gs='git status'
+alias gfix='git commit --fixup='
+
 alias fetch="fastfetch"
 alias lg='lazygit'
 
@@ -110,3 +115,7 @@ export PATH=$PATH:/home/felux/Documents/oscal-cli/target/cli-core-1.0.3-oscal-cl
 function gi() { curl -sLw "\n" https://www.toptal.com/developers/gitignore/api/$@ ;}
 
 . "$HOME/.local/share/../bin/env"
+
+
+# Added by Antigravity CLI installer
+export PATH="/home/felux/.local/bin:$PATH"
