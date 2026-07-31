@@ -1,2 +1,5 @@
 fonts/.local/share/fonts/
 zsh/.zsh/plugins/
+vscode/.vscode/extensions/*
+!vscode/.vscode/extensions/ayu-mirage-mod/
+!vscode/.vscode/extensions/ayu-mirage-mod/**
