@@ -8,14 +8,19 @@ fi
 # Manual Zsh plugin management, no Oh My Zsh
 
 # Add plugins to your fpath if needed
-# fpath+=($HOME/.zsh/plugins/zsh-completions/src)
+# fpath+=(${XDG_DATA_HOME:-$HOME/.local/share}/zsh/plugins/zsh-completions/src)
 
 # Source plugins
-source $HOME/.zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
-source $HOME/.zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-source $HOME/.zsh/plugins/calc/calc.plugin.zsh
+ZSH_PLUGIN_DIR="${XDG_DATA_HOME:-$HOME/.local/share}/zsh/plugins"
+[[ -r "$ZSH_PLUGIN_DIR/zsh-autosuggestions/zsh-autosuggestions.zsh" ]] &&
+  source "$ZSH_PLUGIN_DIR/zsh-autosuggestions/zsh-autosuggestions.zsh"
+[[ -r "$ZSH_PLUGIN_DIR/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" ]] &&
+  source "$ZSH_PLUGIN_DIR/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
+[[ -r "$ZSH_PLUGIN_DIR/calc/calc.plugin.zsh" ]] &&
+  source "$ZSH_PLUGIN_DIR/calc/calc.plugin.zsh"
 # Powerlevel10k prompt
-source $HOME/.zsh/plugins/powerlevel10k/powerlevel10k.zsh-theme
+[[ -r "$ZSH_PLUGIN_DIR/powerlevel10k/powerlevel10k.zsh-theme" ]] &&
+  source "$ZSH_PLUGIN_DIR/powerlevel10k/powerlevel10k.zsh-theme"
 [[ -f ~/.p10k.zsh ]] && source ~/.p10k.zsh
 
 # FZF fuzzy finder
@@ -62,7 +67,7 @@ alias lg='lazygit'
 alias ls='eza --color=always --icons'
 lst() {
   level="${1:-1}"   # default to 1 if no argument given
-  exa --tree --color=always --level="$level" --icons
+  eza --tree --color=always --level="$level" --icons
 }
 alias lsa='eza -a --icons --color=always'
 alias lsl='eza --icons --color=always --oneline'
@@ -110,12 +115,12 @@ export PATH="$HOME/bin:$HOME/.local/bin:$PATH"
 export PATH="$HOME/.cargo/bin:$PATH"
 
 
-export PATH=$PATH:/home/felux/.spicetify
-export PATH=$PATH:/home/felux/Documents/oscal-cli/target/cli-core-1.0.3-oscal-cli/bin
+export PATH="$PATH:$HOME/.spicetify"
+export PATH="$PATH:$HOME/Documents/oscal-cli/target/cli-core-1.0.3-oscal-cli/bin"
 function gi() { curl -sLw "\n" https://www.toptal.com/developers/gitignore/api/$@ ;}
 
-. "$HOME/.local/share/../bin/env"
+[[ -r "$HOME/.local/bin/env" ]] && source "$HOME/.local/bin/env"
 
 
 # Added by Antigravity CLI installer
-export PATH="/home/felux/.local/bin:$PATH"
+export PATH="$HOME/.local/bin:$PATH"

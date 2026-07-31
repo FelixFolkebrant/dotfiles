@@ -1,54 +1,86 @@
 #!/usr/bin/env bash
 
-# Check if running as root
-if [ "$EUID" -eq 0 ]; then
-  echo "Please don't run as root."
+set -Eeuo pipefail
+
+REPO_DIR=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)
+cd "$REPO_DIR"
+
+if [[ $EUID -eq 0 ]]; then
+  echo "Please run this script as your normal user, not as root." >&2
   exit 1
 fi
 
-set -e
+read_package_file() {
+  local package_file=$1
+  sed -e 's/[[:space:]]*#.*$//' -e '/^[[:space:]]*$/d' "$package_file"
+}
 
-echo "Configure locale"
-bash scripts/locale.sh
-
-echo "installing yay"
-bash scripts/install-yay.sh
+echo "[*] Requesting sudo access..."
+sudo -v
 
 echo "[*] Installing official packages..."
-sudo pacman -S --noconfirm --needed $(< packages.txt)
+mapfile -t official_packages < <(read_package_file packages.txt)
+sudo pacman -S --noconfirm --needed -- "${official_packages[@]}"
 
-echo "[*] Installing AUR packages..."
-yay -S --noconfirm --needed $(< aurlist.txt)
+echo "[*] Configuring locale..."
+bash scripts/locale.sh
 
-echo "Creating standard dirs"
-mkdir -p ~/dev/  ~/Documents/  ~/Downloads/  ~/Pictures/
+read -r -p "Configure a GitHub SSH key now? [Y/n]: " configure_ssh
+if [[ ! $configure_ssh =~ ^[Nn]$ ]]; then
+  bash scripts/configure-github-ssh.sh
+fi
 
-echo "Stowing directories"
+echo "[*] Installing yay..."
+bash scripts/install-yay.sh
+
+mapfile -t aur_packages < <(read_package_file aurlist.txt)
+if ((${#aur_packages[@]})); then
+  echo "[*] Installing required AUR packages..."
+  yay -S --noconfirm --needed -- "${aur_packages[@]}"
+fi
+
+read -r -p "Install optional desktop applications? [y/N]: " install_optional
+if [[ $install_optional =~ ^[Yy]$ ]]; then
+  mapfile -t optional_packages < <(read_package_file packages-optional.txt)
+  yay -S --noconfirm --needed -- "${optional_packages[@]}"
+fi
+
+echo "[*] Creating standard directories..."
+mkdir -p "$HOME/dev" "$HOME/Documents" "$HOME/Downloads" "$HOME/Pictures"
+
+echo "[*] Stowing dotfiles..."
 bash scripts/stow-all.sh
 
-echo Installing zsh plugins
+echo "[*] Installing Zsh plugins..."
 bash scripts/install-zsh-plugins.sh
 
-echo "Installing fonts"
-bash scripts/install-fonts.sh
+echo "[*] Applying dark appearance settings..."
+bash scripts/configure-dark-mode.sh
 
-echo "Refreshing font cache..."
-fc-cache -fv
+echo "[*] Enabling required system services..."
+sudo systemctl enable --now \
+  NetworkManager.service \
+  bluetooth.service \
+  keyd.service \
+  power-profiles-daemon.service
 
-echo "Enabling bluetooth service"
-sudo systemctl enable bluetooth.service --now
+echo "[*] Refreshing the font cache..."
+fc-cache -f
 
-echo "Changing default shell to ZSH"
-chsh -s /bin/zsh
+zsh_path=$(command -v zsh)
+if [[ ${SHELL:-} != "$zsh_path" ]]; then
+  echo "[*] Changing the default shell to Zsh..."
+  chsh -s "$zsh_path"
+fi
 
-echo ""
-read -p "🚀 Setup complete. Do you want to reboot now? [y/N]: " choice
-case "$choice" in
-  y|Y )
+echo
+read -r -p "Setup complete. Reboot now? [y/N]: " reboot_choice
+case "$reboot_choice" in
+  y | Y)
     echo "Rebooting..."
     systemctl reboot
     ;;
-  * )
-    echo "Alright, not rebooting. You may need to log out and back in for everything to apply."
+  *)
+    echo "Not rebooting. Log out and back in before testing keyd, brightness, or the new shell."
     ;;
 esac
