@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Laptop power profile report</title>
+  <style>
+    :root { color-scheme: dark; --bg:#0b1020; --card:#151d32; --line:#2a3858; --text:#edf2ff; --muted:#aebbd5; --green:#65d8a2; --amber:#f4c66a; --red:#ff8d8d; --blue:#8cc6ff; }
+    * { box-sizing:border-box } body { margin:0; font:15px/1.55 system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; color:var(--text); background:linear-gradient(135deg,#0b1020,#101a30 55%,#101322); }
+    main { max-width:1200px; margin:auto; padding:48px 24px 72px } h1 { font-size:clamp(2rem,5vw,3.5rem); line-height:1.05; margin:0 0 12px } h2 { margin:46px 0 14px; font-size:1.55rem } h3 { margin:0 0 9px } p { margin:8px 0 } .lede { color:var(--muted); font-size:1.12rem; max-width:900px }.notice { margin:26px 0; padding:16px 18px; background:#202943; border-left:4px solid var(--amber); border-radius:6px; color:#dde6fa }
+    .cards { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:16px }.card { background:color-mix(in srgb,var(--card) 92%,transparent); border:1px solid var(--line); padding:21px; border-radius:12px }.save { border-top:4px solid var(--green) }.balanced { border-top:4px solid var(--blue) }.performance { border-top:4px solid var(--red) }
+    .tag { display:inline-block; padding:2px 8px; border-radius:999px; font-size:.76rem; font-weight:700; letter-spacing:.04em; background:#223353; color:var(--blue) }.stars { color:var(--amber); letter-spacing:1px; white-space:nowrap }.good { color:var(--green) }.caution { color:var(--amber) }.avoid { color:var(--red) }
+    table { width:100%; border-collapse:collapse; background:var(--card); border:1px solid var(--line); border-radius:12px; overflow:hidden } th,td { padding:13px 14px; text-align:left; vertical-align:top; border-bottom:1px solid var(--line) } th { color:#cad9f7; background:#1a2641; font-size:.82rem; text-transform:uppercase; letter-spacing:.04em } tr:last-child td { border-bottom:0 } code { font: .84em ui-monospace,SFMono-Regular,Consolas,monospace; background:#0a1121; padding:2px 5px; border-radius:4px; overflow-wrap:anywhere } pre { white-space:pre-wrap; background:#080d19; border:1px solid var(--line); padding:16px; border-radius:9px; color:#dce8ff; overflow:auto }.small { color:var(--muted); font-size:.9rem }.grid2 { display:grid; grid-template-columns:1fr 1fr; gap:16px }.rule { border:0; border-top:1px solid var(--line); margin:34px 0 }
+    @media(max-width:780px){ main{padding:32px 14px}.cards,.grid2{grid-template-columns:1fr}table{display:block;overflow-x:auto}th,td{min-width:140px} }
+    @media print { :root{color-scheme:light;--bg:#fff;--card:#fff;--line:#cbd5e1;--text:#102038;--muted:#42546e} body{background:#fff}.card,table{background:#fff}.notice,pre{background:#f5f8fc;color:#102038} }
+  </style>
+</head>
+<body><main>
+  <span class="tag">POWER MANAGEMENT REPORT</span>
+  <h1>Practical laptop power profiles</h1>
+  <p class="lede">A decision-oriented guide for a modern Linux laptop. Ratings estimate battery-life value: ★★★★★ is usually a major win; ★ is rarely worth changing alone. Apply only controls your hardware exposes.</p>
+  <div class="notice"><strong>Live audit (31 July 2026):</strong> AMD Ryzen with <strong>amd-pstate-epp</strong>, an integrated Radeon 680M, and no discrete GPU were detected. Firmware exposes <code>low-power</code>, <code>balanced</code>, and <code>performance</code> platform profiles; power-profiles-daemon changes governor/EPP correctly. The internal Lenovo LEN151WQXGA display exposes 60 Hz and 165 Hz—not 90 Hz—so unsupported custom modes should not be forced.</div>
+
+  <h2>Recommended defaults</h2>
+  <div class="cards">
+    <section class="card save"><span class="tag">ON BATTERY</span><h3>Power save</h3><p>Prioritise runtime. Keep the system responsive for browsing, documents, coding and video.</p><p><strong>Use:</strong> low panel refresh, conservative CPU policy, iGPU-only if hybrid, adaptive brightness, runtime suspend and radio savings.</p><p class="good"><strong>Expected trade-off:</strong> slower sustained builds/games; possible 60 Hz UI.</p></section>
+    <section class="card balanced"><span class="tag">DEFAULT</span><h3>Balanced</h3><p>The everyday profile. Preserve normal responsiveness and enable savings that have little visible cost.</p><p><strong>Use:</strong> balanced platform policy, automatic GPU runtime suspend, adaptive refresh/brightness, moderate CPU boost.</p><p class="good"><strong>Expected trade-off:</strong> generally imperceptible outside heavy workloads.</p></section>
+    <section class="card performance"><span class="tag">AC / DEMANDING WORK</span><h3>Performance</h3><p>For compiling, rendering, gaming, external displays or latency-sensitive tasks.</p><p><strong>Use:</strong> performance platform policy, full refresh rate, aggressive CPU boost and dGPU only when needed.</p><p class="caution"><strong>Expected trade-off:</strong> markedly higher draw and fan noise; use on mains where practical.</p></section>
+  </div>
+
+  <h2>Control matrix</h2>
+  <table><thead><tr><th>Control</th><th>Battery value</th><th>Power save</th><th>Balanced</th><th>Performance</th><th>Notes / validation</th></tr></thead><tbody>
+    <tr><td><strong>Screen brightness</strong></td><td><span class="stars">★★★★★</span><br>Often the largest manual lever</td><td>30–45%, adaptive brightness</td><td>50–70%, adaptive brightness</td><td>As needed</td><td>Reduce first before tuning CPU. Avoid unreadably low levels; OLED/high-resolution panels can save especially well.</td></tr>
+    <tr><td><strong>Display refresh rate / VRR</strong></td><td><span class="stars">★★★★☆</span><br>High on 120–240 Hz panels</td><td>60 Hz, VRR on if supported</td><td>Dynamic/90–120 Hz, VRR on</td><td>Native maximum, VRR on</td><td>Verify available modes with <code>wlr-randr</code>, compositor settings, or <code>xrandr --query</code>. Dropping 165→60 Hz is often worthwhile.</td></tr>
+    <tr><td><strong>CPU platform profile</strong></td><td><span class="stars">★★★★☆</span></td><td><code>power-saver</code></td><td><code>balanced</code></td><td><code>performance</code></td><td>Use firmware platform profiles when present: <code>/sys/firmware/acpi/platform_profile</code>. Prefer this over stacking conflicting daemons.</td></tr>
+    <tr><td><strong>CPU governor / EPP</strong></td><td><span class="stars">★★★☆☆</span></td><td>powersave governor; EPP <code>power</code></td><td>powersave governor; EPP <code>balance_performance</code></td><td>performance governor; EPP <code>performance</code></td><td>Modern Intel P-state and AMD P-state respond best to EPP. Do not force old governors if the driver lacks them.</td></tr>
+    <tr><td><strong>CPU boost / turbo</strong></td><td><span class="stars">★★★☆☆</span><br>High during builds</td><td>Disable or cap on battery</td><td>Enable, but favour balanced EPP</td><td>Enable</td><td>Good when sustained CPU load dominates. It will not meaningfully help idle drain. Check thermal and workload impact.</td></tr>
+    <tr><td><strong>Discrete GPU (hybrid laptop)</strong></td><td><span class="stars">★★★★★</span><br>When a dGPU exists</td><td>iGPU only; runtime suspend dGPU</td><td>Offload dGPU per app; ensure runtime suspend</td><td>dGPU enabled as workload requires</td><td>The highest-impact hybrid setting. An awake NVIDIA/AMD dGPU can cost several watts at idle. Verify <code>lspci -nnk</code> and runtime status.</td></tr>
+    <tr><td><strong>GPU power / compositor effects</strong></td><td><span class="stars">★★★☆☆</span></td><td>iGPU, disable unnecessary blur/animations</td><td>iGPU, normal effects</td><td>Normal effects / dGPU app offload</td><td>Prefer application offload over global dGPU mode. External monitor ports may be wired to the dGPU.</td></tr>
+    <tr><td><strong>Wi-Fi power saving</strong></td><td><span class="stars">★★☆☆☆</span></td><td>Enable</td><td>Enable unless latency/roaming suffers</td><td>Disable for low-latency networking only</td><td>Use NetworkManager connection settings. Test video calls and unreliable APs; aggressive saving can increase latency.</td></tr>
+    <tr><td><strong>Bluetooth / WWAN</strong></td><td><span class="stars">★★☆☆☆</span></td><td>Disable when unused</td><td>Disable when unused</td><td>As needed</td><td>WWAN/modems can be a bigger drain than Bluetooth. Airplane mode is valuable when offline.</td></tr>
+    <tr><td><strong>PCIe runtime PM / ASPM</strong></td><td><span class="stars">★★★☆☆</span></td><td>Enable safe runtime PM</td><td>Enable safe runtime PM</td><td>Default</td><td>Use TLP or tuned kernel policy, not both. Test Wi-Fi, NVMe and docks after changes; avoid forcing ASPM if firmware is unstable.</td></tr>
+    <tr><td><strong>USB autosuspend</strong></td><td><span class="stars">★★☆☆☆</span></td><td>Enable with device exclusions</td><td>Enable with exclusions</td><td>Default / enable</td><td>Exclude keyboards, receivers, audio interfaces or drives that misbehave. Never blindly suspend input devices.</td></tr>
+    <tr><td><strong>Audio idle power</strong></td><td><span class="stars">★☆☆☆☆</span></td><td>Allow codec idle suspend</td><td>Allow codec idle suspend</td><td>Allow codec idle suspend</td><td>Small win, usually safe. Only tune if it causes headphone-pop or wake delay.</td></tr>
+    <tr><td><strong>Storage / NVMe APST</strong></td><td><span class="stars">★★☆☆☆</span></td><td>Default APST; avoid needless disk activity</td><td>Default APST</td><td>Default APST</td><td>Modern NVMe manages this well. Do not disable write caching or use aggressive settings solely for power without reliability testing.</td></tr>
+    <tr><td><strong>Keyboard backlight &amp; RGB</strong></td><td><span class="stars">★–★★☆☆</span></td><td>Off or lowest useful level</td><td>Low / timeout</td><td>As needed</td><td>Easy, low-risk saving; RGB is mostly aesthetic.</td></tr>
+    <tr><td><strong>Battery charge threshold</strong></td><td><span class="stars">Lifetime, not runtime</span></td><td>80% while mostly docked</td><td>80–90% while mostly docked</td><td>100% before travel</td><td>Improves battery longevity, not time per charge. Verify vendor support in <code>/sys/class/power_supply/BAT*/charge_control_end_threshold</code>.</td></tr>
+    <tr><td><strong>Suspend / screen timeout</strong></td><td><span class="stars">★★★★★</span><br>For unattended time</td><td>Screen 3–5 min; suspend 10–15 min</td><td>Screen 5–10 min; suspend 20–30 min</td><td>Screen 10–15 min; suspend 30–60 min</td><td>One of the strongest settings in real use. Validate suspend reliability with docks, USB devices and network wake.</td></tr>
+  </tbody></table>
+
+  <h2>Profile recipes</h2>
+  <div class="grid2"><section class="card"><h3>Power save: use these first</h3><ol><li>Set brightness to the lowest comfortable level and 60 Hz refresh.</li><li>Select <code>power-saver</code> platform profile and energy-biased EPP.</li><li>Keep a hybrid dGPU fully runtime-suspended; launch GPU workloads only on AC.</li><li>Enable Wi-Fi power saving, USB autosuspend and screen/suspend timeouts.</li><li>Disable unused Bluetooth, WWAN, keyboard lighting and external displays.</li></ol></section><section class="card"><h3>Balanced: the recommended daily baseline</h3><ol><li>Use <code>balanced</code> platform profile and <code>balance_performance</code> EPP.</li><li>Keep adaptive brightness and VRR/dynamic refresh enabled.</li><li>Enable safe runtime PM, USB autosuspend and dGPU runtime suspend.</li><li>Leave turbo enabled; only cap it if compilation/gaming materially shortens runtime.</li><li>Use per-app dGPU offload rather than a system-wide performance mode.</li></ol></section></div>
+  <section class="card performance" style="margin-top:16px"><h3>Performance: activate deliberately</h3><p>Use the performance platform profile, native maximum refresh rate, performance-biased CPU EPP and boost. Enable the dGPU only for workloads that need it. This is the right profile for games, rendering, a sustained compile, or external-display work—but it is normally poor for battery life and should be reverted when the task ends.</p></section>
+
+  <h2>What to inspect before changing anything</h2>
+  <p>Run this read-only audit in a terminal, then use its output to decide which rows above are actually available. It deliberately avoids changing settings.</p>
+  <pre>printf '== hardware ==\\n'; lspci -nnk | rg -i 'vga|3d|display|network'
+printf '\\n== power profiles ==\\n'; powerprofilesctl list 2&gt;/dev/null || true
+printf '\\n== CPU driver / policy ==\\n'; cpupower frequency-info 2&gt;/dev/null || true
+printf '\\n== platform profile ==\\n'; cat /sys/firmware/acpi/platform_profile_choices 2&gt;/dev/null || true
+printf '\\n== batteries / thresholds ==\\n'; grep -H . /sys/class/power_supply/BAT*/{status,capacity,charge_control_end_threshold} 2&gt;/dev/null || true
+printf '\\n== GPU runtime status ==\\n'; grep -H . /sys/bus/pci/devices/*/power/{control,runtime_status} 2&gt;/dev/null || true
+printf '\\n== active power tools ==\\n'; systemctl --type=service --all | rg -i 'power-profiles|tlp|auto-cpufreq|tuned|thermald'
+printf '\\n== current wakeups / draw (install if absent) ==\\n'; sudo powertop</pre>
+  <p class="small">For a Wayland desktop, use the compositor’s display settings or <code>wlr-randr</code>; for X11, use <code>xrandr --query</code>. Do not run TLP, power-profiles-daemon, auto-cpufreq and tuned as competing policy owners. Pick one primary policy layer; firmware/platform profile support is the best first choice when present.</p>
+
+  <h2>Measurement plan</h2>
+  <table><thead><tr><th>Test</th><th>Method</th><th>Decision rule</th></tr></thead><tbody>
+    <tr><td>Idle baseline</td><td>Battery mode, 50% brightness, radios on, no external display; leave idle for 10 minutes and record discharge rate in <code>powertop</code> or <code>upower</code>.</td><td>Apply one change at a time. Keep a setting only if repeat tests show a meaningful improvement and no regression.</td></tr>
+    <tr><td>Typical workload</td><td>Repeat with your usual browser tabs/editor/video call. Measure for at least 20 minutes.</td><td>Screen refresh and dGPU state often matter more here than fine-grained CPU knobs.</td></tr>
+    <tr><td>Load</td><td>Compile, render or game while recording power draw and elapsed work time.</td><td>Compare energy per completed job, not just watts: a faster profile can use less total energy for a short task.</td></tr>
+  </tbody></table>
+
+  <h2>Bottom line</h2>
+  <p><strong>Highest-return adjustments:</strong> brightness and sleep timeout on every laptop; refresh-rate reduction on high-Hz panels; and correctly suspending/avoiding a dGPU on hybrid systems. <strong>Best default:</strong> balanced platform/EPP policy with runtime PM and automatic graphics savings. Avoid chasing tiny kernel-device tweaks until those big levers are confirmed.</p>
+  <p class="small">Prepared 31 July 2026. Battery-life ratings are relative and workload-dependent; this page is a configuration guide, not a claim of hardware detection.</p>
+</main></body></html>
