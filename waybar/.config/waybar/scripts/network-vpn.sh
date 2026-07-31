@@ -1,16 +1,22 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
-# Check network connection status using ip and iwgetid (more reliable)
-# Check if we have an active WiFi connection
-wifi_interface=$(ip route | grep default | grep -o 'wl[^ ]*' | head -1)
-wifi_status=""
-if [ -n "$wifi_interface" ]; then
-    # Get WiFi network name using iwgetid
-    wifi_status=$(iwgetid -r 2>/dev/null)
-fi
+set -u
 
-# Check if we have an active ethernet connection
-ethernet_interface=$(ip route | grep default | grep -o 'e[^ ]*' | head -1)
+# wireless_tools/iwgetid is no longer installed by default. NetworkManager is
+# already used by nmtui, so query the active connection through nmcli.
+wifi_status=$(nmcli -t -f TYPE,STATE,CONNECTION device status 2>/dev/null |
+  awk -F: '$1 == "wifi" && $2 == "connected" { print $3; exit }')
+ethernet_status=$(nmcli -t -f TYPE,STATE,CONNECTION device status 2>/dev/null |
+  awk -F: '$1 == "ethernet" && $2 == "connected" { print $3; exit }')
+
+json_escape() {
+    local value=$1
+    value=${value//\\/\\\\}
+    value=${value//\"/\\\"}
+    printf '%s' "$value"
+}
+
+wifi_status=$(json_escape "$wifi_status")
 
 # Check VPN status
 vpn_active=false
@@ -28,7 +34,7 @@ if [ -n "$wifi_status" ]; then
         # No VPN - show regular WiFi icon
         echo "{\"text\": \"󰖩\", \"tooltip\": \"$wifi_status\"}"
     fi
-elif [ -n "$ethernet_interface" ]; then
+elif [ -n "$ethernet_status" ]; then
     # Ethernet is connected
     if [ "$vpn_active" = true ]; then
         echo "{\"text\": \"󰈀\", \"tooltip\": \"Ethernet (VPN)\"}"

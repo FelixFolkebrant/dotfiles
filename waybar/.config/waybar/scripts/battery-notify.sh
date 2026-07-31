@@ -1,8 +1,20 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
-# Get battery info
-capacity=$(cat /sys/class/power_supply/BAT0/capacity 2>/dev/null || cat /sys/class/power_supply/BAT1/capacity 2>/dev/null)
-status=$(cat /sys/class/power_supply/BAT0/status 2>/dev/null || cat /sys/class/power_supply/BAT1/status 2>/dev/null)
+set -u
+
+battery_path=""
+for candidate in /sys/class/power_supply/BAT*; do
+    if [[ -r "$candidate/capacity" && -r "$candidate/status" ]]; then
+        battery_path=$candidate
+        break
+    fi
+done
+
+# Desktops and some virtual machines have no battery.
+[[ -n $battery_path ]] || exit 0
+
+capacity=$(<"$battery_path/capacity")
+status=$(<"$battery_path/status")
 
 # Create notification tracking files
 NOTIFY_DIR="/tmp/waybar-battery"
