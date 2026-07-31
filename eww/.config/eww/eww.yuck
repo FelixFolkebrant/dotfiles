@@ -1,0 +1,31 @@
+;; A compact, iPhone-inspired system OSD. It stays open but its revealer is
+;; hidden until the helper updates a value, avoiding a new window per keypress.
+(defvar osd_visible false)
+(defvar osd_icon "󰕾")
+(defvar osd_value 50)
+
+(defwidget osd []
+  (revealer :reveal osd_visible
+            :transition "slideup"
+            :duration "120ms"
+    (box :class "osd-surface"
+         :valign "center"
+      (overlay :class "osd-content"
+        (progress :class "osd-progress" :orientation "v" :flipped true :value osd_value)
+        (label :class "osd-icon"
+               :text osd_icon
+               :halign "center"
+               :valign "end")))))
+
+(defwindow osd
+  :monitor 0
+  :geometry (geometry :x "18px"
+                      :y "0%"
+                      :width "26px"
+                      :height "212px"
+                      :anchor "right center")
+  :stacking "overlay"
+  :exclusive false
+  :focusable false
+  :namespace "eww-osd"
+  (osd))

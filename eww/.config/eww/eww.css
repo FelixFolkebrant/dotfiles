@@ -1,0 +1,52 @@
+* {
+  all: unset;
+  font-family: "JetBrainsMono Nerd Font";
+  color: #ffffff;
+}
+
+window#osd {
+  background-color: transparent;
+}
+
+.osd-surface {
+  min-height: 188px;
+}
+
+.osd-icon {
+  min-width: 22px;
+  min-height: 25px;
+  color: rgba(0, 0, 0, 0.72);
+  font-size: 14px;
+}
+
+.osd-content {
+  min-width: 22px;
+  min-height: 180px;
+}
+
+.osd-progress,
+.osd-progress trough,
+.osd-progress progress {
+  animation: none;
+  transition: none;
+}
+
+.osd-progress {
+  min-width: 22px;
+  min-height: 5px;
+}
+
+.osd-progress trough {
+  min-width: 22px;
+  min-height: 5px;
+  border-radius: 99px;
+  background-color: rgba(255, 255, 255, 0.20);
+}
+
+.osd-progress progress {
+  min-width: 22px;
+  min-height: 5px;
+  border-radius: 99px;
+  background-color: rgba(255, 255, 255, 0.96);
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.52);
+}

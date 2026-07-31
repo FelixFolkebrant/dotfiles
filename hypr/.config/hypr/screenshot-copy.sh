@@ -1,6 +1,6 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
-#!/bin/bash
+set -Eeuo pipefail
 
 # Screenshot folder and save path
 shot_dir="$HOME/Pictures/Screenshots"
@@ -11,19 +11,19 @@ mkdir -p "$shot_dir"
 
 # Temp file
 img_path=$(mktemp --suffix=.png)
+trap 'rm -f -- "$img_path"' EXIT
 
 # Take screenshot with selection
-grim -g "$(slurp)" "$img_path"
+if ! geometry=$(slurp); then
+  exit 0
+fi
+grim -g "$geometry" "$img_path"
 
 # Copy to clipboard
-cat "$img_path" | wl-copy
+wl-copy <"$img_path"
 
 # Save as 'latest.png'
 cp "$img_path" "$latest_path"
 
 # Notify
 notify-send "Screenshot Taken" "Copied to clipboard"
-
-# Cleanup
-rm "$img_path"
-

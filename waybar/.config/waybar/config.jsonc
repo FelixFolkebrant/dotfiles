@@ -27,7 +27,8 @@
       "headphones": "",
       "headset": "",
     },
-    "scroll-step": 5,
+    "on-scroll-up": "wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 5%+ && bash ~/.config/eww/scripts/osd.sh volume",
+    "on-scroll-down": "wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%- && bash ~/.config/eww/scripts/osd.sh volume",
     "on-click": "pavucontrol",
   },
 
