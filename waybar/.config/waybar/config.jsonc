@@ -21,7 +21,7 @@
   /* --- Audio -------------------------------------------------- */
   "pulseaudio": {
     "format": "{icon}",
-    "format-muted": " muted",
+    "format-muted": "󰝟",
     "format-icons": {
       "default": "",
       "headphones": "",

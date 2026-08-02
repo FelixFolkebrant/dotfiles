@@ -37,6 +37,10 @@ tooltip {
   padding-right: 8px;
 }
 
+#pulseaudio.muted {
+  font-size: 18px;
+}
+
 #battery.icon {
   font-size: 16px;
   margin-right: 12px; /* Space between icon and text */
