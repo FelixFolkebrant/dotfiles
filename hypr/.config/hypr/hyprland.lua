@@ -27,7 +27,6 @@ end
 
 local internalRefreshRate = runtimePreference("hypr-eDP-1-refresh-rate", {
     ["60"] = true,
-    ["90"] = true,
     ["165"] = true,
 }, "165")
 local desktopPowerProfile = runtimePreference("hypr-power-profile", {
@@ -360,8 +359,9 @@ hl.bind(mainMod .. " + CTRL + S", hl.dsp.exec_cmd(home .. "/.config/hypr/screens
 hl.bind(mainMod .. " + T", hl.dsp.exec_cmd(home .. "/.config/hypr/screenshot-ocr.sh"))
 hl.bind(mainMod .. " + F5", hl.dsp.exec_cmd(home .. "/.config/hypr/powerprofiles-toggle.sh"))
 -- Linux 6.9+ exposes the Lenovo Fn+R refresh shortcut as this keysym.
--- The helper only applies modes the eDP panel actually advertises.
+-- The helper cycles the panel's 60 Hz and 165 Hz modes.
 hl.bind("XF86RefreshRateToggle", hl.dsp.exec_cmd(home .. "/.config/hypr/refresh-rate-toggle.sh"), {locked = true})
+hl.bind(mainMod .. " + R", hl.dsp.exec_cmd(home .. "/.config/hypr/refresh-rate-toggle.sh"))
 hl.bind(
     mainMod .. " + CTRL + B",
     hl.dsp.exec_cmd("bluetoothctl info 3C:B0:ED:D1:E7:8D | grep -q 'Connected: yes' && bluetoothctl disconnect 3C:B0:ED:D1:E7:8D || bluetoothctl connect 3C:B0:ED:D1:E7:8D")

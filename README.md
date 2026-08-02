@@ -88,10 +88,11 @@ keeps the kernel's global boost switch enabled, while Power Save uses the
 `power` EPP to strongly avoid boost. The machine has a Radeon 680M iGPU and no
 discrete GPU, so there is no dGPU to power down.
 
-`Fn+R` is bound as `XF86RefreshRateToggle` and changes silently. The
-internal LEN151WQXGA panel currently advertises only 60 Hz and 165 Hz. The
-helper prefers the order 60 → 90 → 165 but safely skips 90 Hz because it is
-not a valid panel mode; it never forces a custom modeline.
+`Super+R` cycles the refresh rate silently; `Fn+R` is also bound as
+`XF86RefreshRateToggle`. The
+internal LEN151WQXGA panel advertises 60 Hz and 165 Hz, which the helper
+cycles between without forcing a custom modeline. A brief notification reports
+the selected rate.
 
 Validate the current state or test the scripts directly:
 

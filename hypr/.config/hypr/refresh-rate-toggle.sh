@@ -1,13 +1,11 @@
 #!/usr/bin/env bash
 # Cycle the internal panel through its firmware-advertised refresh modes.
-# This Lenovo LEN151WQXGA panel currently exposes 60 and 165 Hz only; 90 Hz is
-# kept in the preferred order so it starts working automatically if firmware
-# ever advertises it, but no unsupported custom mode is forced.
+# This Lenovo LEN151WQXGA panel exposes 60 Hz and 165 Hz only.
 
 set -Eeuo pipefail
 
 readonly OUTPUT='eDP-1'
-readonly PREFERRED_RATES=(60 90 165)
+readonly PREFERRED_RATES=(60 165)
 readonly STATE_FILE="${XDG_RUNTIME_DIR:-/tmp}/hypr-eDP-1-refresh-rate"
 
 monitors=$(hyprctl monitors all)
@@ -49,7 +47,7 @@ for i in "${!PREFERRED_RATES[@]}"; do
 done
 
 next_rate=''
-for offset in 1 2 3; do
+for offset in 1 2; do
     candidate_index=$(( (current_index + offset) % ${#PREFERRED_RATES[@]} ))
     candidate=${PREFERRED_RATES[$candidate_index]}
     if supports_rate "$candidate"; then
@@ -88,3 +86,5 @@ if [[ ${actual_rate:-unknown} != "$next_rate" ]]; then
     printf 'requested %s Hz; current rate is %s Hz\n' "$next_rate" "${actual_rate:-unknown}" >&2
     exit 1
 fi
+
+notify-send -t 1500 "Refreshrate: ${next_rate}hz"
